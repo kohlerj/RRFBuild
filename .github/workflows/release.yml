@@ -1,0 +1,30 @@
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+name: Build RepRapFirmware thru RRF Build
+jobs:
+  build-and-release:
+    name: Build and Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'write'
+      id-token: 'write'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Build all machine configurations
+        run: |
+          dist/release-all.sh
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: RRF Configuration ${{ github.ref_name }}
+          draft: true
+          generate_release_notes: true
+          body_path: dist/RELEASE_NOTES.md
+          fail_on_unmatched_files: true
+          files: |
+            dist/*.zip
