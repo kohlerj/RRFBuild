@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 if [ "$#" -ne 6 ]; then
   echo "Usage: $0 BUILDTYPE PROCESSOR BOARD BOARD_REV CAN_FLAGS BOARDNAME" >&2
   exit 1

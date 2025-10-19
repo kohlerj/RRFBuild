@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 if [ -f DuetWebControl-SD.zip ]; then
     echo "Using pre-built DWC"
 elif [ -f DuetAPI.xml ]; then

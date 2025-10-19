@@ -162,6 +162,37 @@
         "osx": {
           "options": {
             "env": {
+              "PATH": "/opt/arm-gnu-toolchain-13.2/bin:${env:PATH}"
+            }
+          }
+        },
+        "linux": {
+          "options": {
+            "env": {
+              "PATH": "/opt/arm-gnu-toolchain-13.2/bin:${env:PATH}"
+            }
+          }
+        },
+        "windows": {
+          "options": {
+            "env": {
+              "PATH": "${env:PATH}"
+            }
+          }
+        },
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": "$gcc"
+      },
+      {
+        "label": "build skr3 h743 firmware",
+        "type": "shell",
+        "command": "bash ./testbuild.sh Debug STM32 STM32H7 STM32H743 COMBINED btt skr3_h743",
+        "osx": {
+          "options": {
+            "env": {
               "PATH": "${env:PATH}"
             }
           }
@@ -169,7 +200,7 @@
         "linux": {
           "options": {
             "env": {
-              "PATH": "${env:PATH}"
+              "PATH": "/opt/arm-gnu-toolchain-13.2/bin:${env:PATH}"
             }
           }
         },

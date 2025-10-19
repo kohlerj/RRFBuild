@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 if [ "$#" -lt 8 ]; then
   echo "Usage: $0 BUILDTYPE MCU NETWORK BOARDDIR BOARDNAME BASENAME OUTNAME IAPNAME [CRC_PROG]" >&2
   exit 1
@@ -12,7 +12,7 @@ BOARD=$5
 INNAME=$6
 OUTNAME=$7
 IAP=$8
-CRC=${9:-RepRapFirmware/Tools/CrcAppender/win-x86-64/CrcAppender.exe}
+CRC=${9:-/workspaces/RRFBuildMilo/CrcAppender/bin/Release/net8.0/linux-arm64/publish/CrcAppender}
 #extract firmware version from header file
 VER=`awk 'sub(/.*MAIN_VERSION/,""){print $1}' RepRapFirmware/src/Version.h  | awk 'gsub(/"/, "", $1)'`
 
@@ -28,7 +28,7 @@ if [ -d boards/${DIR}/${BOARD} ]; then
             cp ${OUTPUT}/base/${IAP}.bin ${OUTPUT}/mainboard/${DIR}/$IAP.bin
             ${CRC} ${OUTPUT}/mainboard/${DIR}/${OUTNAME}.bin boards/${DIR}/${BOARD}
             if [ ${NETWORK} != "WIFI" ]; then
-                (cd ${OUTPUT}/mainboard/${DIR}; /c/Windows/SysWOW64/tar.exe -a -c -f ${OUTNAME}.zip ${OUTNAME}.bin ${IAP}.bin)
+                (cd ${OUTPUT}/mainboard/${DIR}; zip -r ${OUTNAME}.zip ${OUTNAME}.bin ${IAP}.bin)
             fi
     fi 
 fi

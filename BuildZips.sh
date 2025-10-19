@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo $1
 BUILD=${1:-Debug}
 #extract firmware version from header file
@@ -20,20 +20,20 @@ cp ${OUTPUT}/expansion/* ziptmp
 # remove picocan boards
 rm ziptmp/*_picocan.uf2
 # create the SBC zip
-(cd ziptmp; /c/Windows/SysWOW64/tar.exe -a -c -f ../${OUTPUT}/STM32RepRapFirmwareSBC.zip *)
+(cd ziptmp; zip -r ../${OUTPUT}/STM32RepRapFirmwareSBC.zip *)
 
 # Add in the wifi firmware
 cp ${OUTPUT}/wifi/* ziptmp
 # prepare DWC
 if [ -f DuetWebControl-SD.zip ]; then
   cp DuetWebControl-SD.zip ziptmp
-  (cd ziptmp; /c/Windows/SysWOW64/tar.exe xvf DuetWebControl-SD.zip; rm DuetWebControl-SD.zip)
+  (cd ziptmp; unzip DuetWebControl-SD.zip; rm DuetWebControl-SD.zip)
 elif [ -f DuetWebControl/dist/DuetWebControl-SD.zip ]; then
   cp DuetWebControl/dist/DuetWebControl-SD.zip ziptmp
-  (cd ziptmp; /c/Windows/SysWOW64/tar.exe xvf DuetWebControl-SD.zip; rm DuetWebControl-SD.zip)
+  (cd ziptmp; unzip DuetWebControl-SD.zip; rm DuetWebControl-SD.zip)
 else
   echo "DWC files are missing"
 fi
 # now zip it all up
-(cd ziptmp; /c/Windows/SysWOW64/tar.exe -a -c -f ../${OUTPUT}/STM32RepRapFirmwareWiFi.zip *)
+(cd ziptmp; zip -r ../${OUTPUT}/STM32RepRapFirmwareWiFi.zip *)
 rm -rf ziptmp

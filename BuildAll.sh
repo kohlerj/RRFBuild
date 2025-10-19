@@ -1,27 +1,34 @@
-#!/bin/sh
+#!/bin/bash
+
+export PATH=/opt/arm-gnu-toolchain-13.2/bin:$PATH
 beginTime=$(date +%s)
 VER=`awk 'sub(/.*MAIN_VERSION/,""){print $1}' RepRapFirmware/src/Version.h  | awk 'gsub(/"/, "", $1)'`
-OUTPUT=releases/${VER}/
+
+
+echo $VER
+
+# exit 0
+
+OUTPUT=releases/${VER}
 rm -rf $OUTPUT
 ./BuildRelease.sh Debug STM32 STM32H7 STM32H743 COMBINED base_stm32h743
-./BuildRelease.sh Debug STM32 STM32H7 STM32H723 COMBINED base_stm32h723
-./BuildRelease.sh Debug STM32 STM32F4 "" COMBINED base_stm32f4
-./BuildIAPRelease.sh Debug STM32 STM32H7 STM32H723 COMBINED stm32h723_iap_SBC
+# ./BuildRelease.sh Debug STM32 STM32H7 STM32H723 COMBINED base_stm32h723
+# ./BuildRelease.sh Debug STM32 STM32F4 "" COMBINED base_stm32f4
+# ./BuildIAPRelease.sh Debug STM32 STM32H7 STM32H723 COMBINED stm32h723_iap_SBC
 ./BuildIAPRelease.sh Debug STM32 STM32H7 STM32H743 COMBINED stm32h743_iap_SBC
-./BuildIAPRelease.sh Debug STM32 STM32F4 "" COMBINED stm32f4_iap_SBC
-./BuildExpRelease.sh Debug RP2040 FLY36RRF 0 "-DUSE_PICOCAN" "FLY36RRF_picocan"
-./BuildExpRelease.sh Debug RP2040 FLY36RRF 1 "-DUSE_SPICAN" "FLY36RRF"
-./BuildExpRelease.sh Debug RP2040 FLYSB2040V1_0 0 "-DUSE_PICOCAN" "FLYSB2040V1_0_picocan"
-./BuildExpRelease.sh Debug RP2040 FLYSB2040V3_0 300 "-DUSE_SPICAN" "SB2040MAX3"
-./BuildExpRelease.sh Debug RP2040 FLYSB2040V3_0 301 "-DUSE_SPICAN" "SB2040PROMAX3"
-./BuildExpRelease.sh Debug RP2040 SHT36 300 "-DUSE_SPICAN" "SHT36V3"
-./BuildExpRelease.sh Debug RP2040 SHT36 301 "-DUSE_SPICAN" "SHT36MAX3"
-./BuildExpRelease.sh Debug RP2040 FLYM2 0 "-DUSE_SPICAN" "FLYM2"
-./BuildExpRelease.sh Debug RP2040 MKSTHR3642 1 "-DUSE_PICOCAN" "MKSTHR3642v1_0_picocan"
-./BuildExpRelease.sh Debug RP2040 PITBV1_0 0 "-DUSE_PICOCAN" "PITBV1_0_picocan"
-./BuildExpRelease.sh Debug RP2040 PITBV2_0 0 "-DUSE_SPICAN" "PITBV2_0"
-./BuildExpRelease.sh Debug RP2040 STRIDEMAXV2_0 0 "-DUSE_SPICAN" "STRIDEMAXV2_0"
-./BuildExpRelease.sh Debug RP2040 FYSETCSB2040V2 0 "-DUSE_SPICAN" "FSSB2040V2"
+# ./BuildIAPRelease.sh Debug STM32 STM32F4 "" COMBINED stm32f4_iap_SBC
+# ./BuildExpRelease.sh Debug RP2040 FLY36RRF 0 "-DUSE_PICOCAN" "FLY36RRF_picocan"
+# ./BuildExpRelease.sh Debug RP2040 FLY36RRF 1 "-DUSE_SPICAN" "FLY36RRF"
+# ./BuildExpRelease.sh Debug RP2040 FLYSB2040V1_0 0 "-DUSE_PICOCAN" "FLYSB2040V1_0_picocan"
+# ./BuildExpRelease.sh Debug RP2040 FLYSB2040V3_0 300 "-DUSE_SPICAN" "SB2040MAX3"
+# ./BuildExpRelease.sh Debug RP2040 FLYSB2040V3_0 301 "-DUSE_SPICAN" "SB2040PROMAX3"
+# ./BuildExpRelease.sh Debug RP2040 SHT36 300 "-DUSE_SPICAN" "SHT36V3"
+# ./BuildExpRelease.sh Debug RP2040 SHT36 301 "-DUSE_SPICAN" "SHT36MAX3"
+# ./BuildExpRelease.sh Debug RP2040 MKSTHR3642 1 "-DUSE_PICOCAN" "MKSTHR3642v1_0_picocan"
+# ./BuildExpRelease.sh Debug RP2040 PITBV1_0 0 "-DUSE_PICOCAN" "PITBV1_0_picocan"
+# ./BuildExpRelease.sh Debug RP2040 PITBV2_0 0 "-DUSE_SPICAN" "PITBV2_0"
+# ./BuildExpRelease.sh Debug RP2040 STRIDEMAXV2_0 0 "-DUSE_SPICAN" "STRIDEMAXV2_0"
+# ./BuildExpRelease.sh Debug RP2040 FYSETCSB2040V2 0 "-DUSE_SPICAN" "FSSB2040V2"
 for oem in boards/*; do
     for board in ${oem}/*_h743; do
         if [[ "$(basename $board)" != "*_h743" ]]; then
@@ -30,21 +37,21 @@ for oem in boards/*; do
         fi
     done
 done
-for oem in boards/*; do
-    for board in ${oem}/*_h723; do
-        if [[ "$(basename $board)" != "*_h723" ]]; then
-            ./BuildBoardRelease.sh Debug STM32H723 COMBINED $(basename $oem) $(basename $board) base_stm32h723 firmware_$(basename $board) stm32h723_iap_SBC
-            ./BuildIAPBLRelease.sh DEBUG STM32 STM32H7 STM32H723 $(basename $oem) $(basename $board)
-        fi
-    done
-done
-for oem in boards/*; do
-    for board in ${oem}/*_f4; do
-       if [[ "$(basename $board)" != "*_f4" ]]; then
-           ./BuildBoardRelease.sh Debug STM32F4 COMBINED $(basename $oem) $(basename $board) base_stm32f4 firmware_$(basename $board) stm32f4_iap_SBC
-       fi
-    done
-done
+# for oem in boards/*; do
+#     for board in ${oem}/*_h723; do
+#         if [[ "$(basename $board)" != "*_h723" ]]; then
+#             ./BuildBoardRelease.sh Debug STM32H723 COMBINED $(basename $oem) $(basename $board) base_stm32h723 firmware_$(basename $board) stm32h723_iap_SBC
+#             ./BuildIAPBLRelease.sh DEBUG STM32 STM32H7 STM32H723 $(basename $oem) $(basename $board)
+#         fi
+#     done
+# done
+# for oem in boards/*; do
+#     for board in ${oem}/*_f4; do
+#        if [[ "$(basename $board)" != "*_f4" ]]; then
+#            ./BuildBoardRelease.sh Debug STM32F4 COMBINED $(basename $oem) $(basename $board) base_stm32f4 firmware_$(basename $board) stm32f4_iap_SBC
+#        fi
+#     done
+# done
 WIFIVER=`awk 'sub(/.*VERSION_MAIN/,""){print $1}' WiFiSocketServerRTOS/src/Config.h  | awk 'gsub(/"/, "", $1)'`
 mkdir -p ${OUTPUT}/wifi/
 cp WiFiSocketServerRTOS/releases/${WIFIVER}/*.bin ${OUTPUT}/wifi
@@ -68,8 +75,8 @@ endTime=$(date +%s)
 echo "Zip file sizes:"
 ls -gho ${OUTPUT}/*.zip
 echo -n "WiFi Zip file count: "
-/c/Windows/SysWOW64/tar.exe tvfn ${OUTPUT}/STM32RepRapFirmwareWiFi.zip | wc -l
+unzip -Z -1 ${OUTPUT}/STM32RepRapFirmwareWiFi.zip | wc -l
 echo -n "SBC Zip file count: "
-/c/Windows/SysWOW64/tar.exe tvfn ${OUTPUT}/STM32RepRapFirmwareSBC.zip | wc -l
+unzip -Z -1 ${OUTPUT}/STM32RepRapFirmwareSBC.zip | wc -l
 echo -n "Build time: "
 date -d@$(expr $endTime - $beginTime) -u +%H:%M:%S

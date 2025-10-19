@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 if [ "$#" -ne 6 ]; then
   echo "Usage: $0 BUILDTYPE CORE MCU VARIANT BOARDDIR BOARD" >&2
   exit 1
