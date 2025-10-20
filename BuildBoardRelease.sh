@@ -12,7 +12,7 @@ BOARD=$5
 INNAME=$6
 OUTNAME=$7
 IAP=$8
-CRC=${9:-/workspaces/RRFBuildMilo/CrcAppender/bin/Release/net8.0/linux-arm64/publish/CrcAppender}
+CRC=${9:-/workspace/RepRapFirmware/Tools/CrcAppender/linux-x86_64/CrcAppender}
 #extract firmware version from header file
 VER=`awk 'sub(/.*MAIN_VERSION/,""){print $1}' RepRapFirmware/src/Version.h  | awk 'gsub(/"/, "", $1)'`
 

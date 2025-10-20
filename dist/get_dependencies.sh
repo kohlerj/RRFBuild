@@ -39,6 +39,9 @@ fi
 if [ -z "${WIFISOCKERSERVER_REF}" ]; then
     WIFISOCKERSERVER_REF="ethernet"
 fi
+if [ -z "${DUETWEBCONTROL_REF}" ]; then
+    DUETWEBCONTROL_REF="main"
+fi
 
 clone_repo() {
     local url="$1"
@@ -69,6 +72,10 @@ clone_repo "${CAN_LIB_URL}"            "${CAN_LIB_REF}"
 clone_repo "${DUETWIFISOCKETSERVER_URL}" "${DUETWIFISOCKETSERVER_REF}"
 clone_repo "${DUET3EXPANSION_URL}"     "${DUET3EXPANSION_REF}" 
 clone_repo "${IAP_URL}"                "${IAP_REF}"
+# In IAP we need to set some files permissions to be executable
+find IAP/makefiles -type f -name "*.sh" -exec chmod +x {} \; || exit 1
+
 clone_repo "${RRF_ESP32_SDK_URL}"      "${RRF_ESP32_SDK_REF}" --recursive
 clone_repo "${RRF_ESP8266_SDK_URL}"    "${RRF_ESP8266_SDK_REF}" --recursive
 clone_repo "${WIFISOCKERSERVER_URL}"   "${WIFISOCKERSERVER_REF}"
+clone_repo "${DUETWEBCONTROL_URL}"     "${DUETWEBCONTROL_REF}"

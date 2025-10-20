@@ -4,11 +4,16 @@
 SD=$(dirname "$0")
 CUR_DIR=$(pwd)
 
+cd ${CUR_DIR}/WiFiSocketServerRTOS
+VER=`awk 'sub(/.*VERSION_MAIN/,""){print $1}' src/Config.h  | awk 'gsub(/"/, "", $1)'`
+OUTPUT=releases/${VER}
+mkdir -p ${OUTPUT}
+
+cd ${CUR_DIR}
+
 sudo apt update
 
 # ESP8266
-# sudo apt install -y python3-pip python-is-python3 python3-serial gcc git wget make libncurses-dev flex bison gperf
-
 # wget https://dl.espressif.com/dl/xtensa-lx106-elf-gcc8_4_0-esp-2020r3-linux-amd64.tar.gz
 
 # ESP_DIR=$(pwd)/esp
@@ -17,7 +22,7 @@ sudo apt update
 
 # tar -xzf xtensa-lx106-elf-gcc8_4_0-esp-2020r3-linux-amd64.tar.gz -C ${ESP_DIR}
 
-rm xtensa-lx106-elf-gcc8_4_0-esp-2020r3-linux-amd64.tar.gz
+# rm xtensa-lx106-elf-gcc8_4_0-esp-2020r3-linux-amd64.tar.gz
 
 # export PATH="$PATH:${ESP_DIR}/xtensa-lx106-elf/bin"
 
@@ -33,11 +38,7 @@ rm xtensa-lx106-elf-gcc8_4_0-esp-2020r3-linux-amd64.tar.gz
 
 # make
 
-# # ESP32
-
-sudo apt-get install -y git wget flex bison gperf python3 python3-pip python3-venv python3-virtualenv cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
-
-
+### ESP32 ###
 export IDF_PATH=${CUR_DIR}/esp-idf
 
 cd $IDF_PATH
@@ -46,10 +47,12 @@ cd $IDF_PATH
 
 . ./export.sh
 
-
 cd ${CUR_DIR}/WiFiSocketServerRTOS
 
 idf.py set-target esp32
 idf.py build
+cp build/DuetWiFiModule_32.bin ${OUTPUT}/WiFiModule_esp32.bin
 
+idf.py -DSUPPORT_ETHERNET=1 build
+cp build/DuetWiFiModule_32.bin ${OUTPUT}/WiFiModule_esp32eth.bin
 
